@@ -4,11 +4,15 @@ import Alert from "./components/Alert";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
 import Modal from "./components/Modal";
+import Reload from "./components/Reload";
 import Results from "./components/Results";
 import UserInputs from "./components/UserInputs";
+import WinModal from "./components/WinModal";
 
 const App = () => {
   const [results, setResult] = useState([]);
+  const [win, setWin] = useState(false);
+
   // numbers from 1 - 9
   const numbersArray = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
@@ -59,7 +63,12 @@ const App = () => {
   }
 
   // put inside an array
-  const randomNumbers = [randNum1, randNum2, randNum3, randNum4];
+  const [randomNumbers, setRandomNumbers] = useState([
+    randNum1,
+    randNum2,
+    randNum3,
+    randNum4,
+  ]);
 
   const getUserInputs = (input1, input2, input3, input4) => {
     const userNumbers = [input1, input2, input3, input4];
@@ -103,12 +112,18 @@ const App = () => {
       killCount++;
     }
 
+    inj = inj - killCount;
+
     const id = Math.floor(Math.random() * 10000) + 1;
 
     const newResult = { id, inj, killCount, userNumbers, randomNumbers };
     console.log(newResult);
 
     setResult([...results, newResult]);
+
+    if (killCount === 4) {
+      setWin(true);
+    }
 
     console.log(`
       Inputs: ${userNumbers.join("")}
@@ -125,16 +140,17 @@ const App = () => {
           <div className="card card-body">
             <Header />
             <Alert />
-            <UserInputs onGet={getUserInputs} />
+            {!win ? <UserInputs onGet={getUserInputs} /> : <Reload />}
           </div>
         </div>
         <div className="col-md-6 m-auto">
           <div className="card card-body">
-            <Modal />
+            <Modal results={results} />
             <Results results={results} />
           </div>
         </div>
       </div>
+      {win && <WinModal results={results} win={() => setWin(!win)} />}
       <Footer />
     </div>
   );

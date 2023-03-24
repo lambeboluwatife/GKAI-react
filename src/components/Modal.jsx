@@ -1,4 +1,4 @@
-const Modal = () => {
+const Modal = ({ results }) => {
   return (
     <>
       <button
@@ -131,6 +131,9 @@ const Modal = () => {
           </div>
         </div>
       </div>
+      <hr />
+
+      <div className="btn btn-dark btn-block">{results.length} try</div>
     </>
   );
 };
