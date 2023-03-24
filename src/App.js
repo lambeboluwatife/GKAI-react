@@ -117,20 +117,12 @@ const App = () => {
     const id = Math.floor(Math.random() * 10000) + 1;
 
     const newResult = { id, inj, killCount, userNumbers, randomNumbers };
-    console.log(newResult);
 
     setResult([...results, newResult]);
 
     if (killCount === 4) {
       setWin(true);
     }
-
-    console.log(`
-      Inputs: ${userNumbers.join("")}
-      Inj: ${inj}
-      KillCount: ${killCount}
-      Computer Numbers: ${randomNumbers.join("")}
-      `);
   };
 
   return (
